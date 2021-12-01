@@ -14,12 +14,14 @@ export default function Favourites() {
   }, [dispatch]);
   return (
     <div className="container-fluid">
-      <h1 className="pt-5 pb-5">Favourite Book List</h1>
+      <h1 className="pt-5 pb-5">Your Favourite Book List</h1>
+      { favBooklist?
       <Row>
         {fetchBooksRecord.map((record) =>
           favBooklist.includes(record.id) ? <BookCard record={record} /> : ""
         )}
-      </Row>
+      </Row>:"hello"
+}
     </div>
   );
 }

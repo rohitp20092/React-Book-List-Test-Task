@@ -4,22 +4,26 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { Users } from "../../assests/dummyData";
 import { setLoginUser } from "../../Redux/usersAction";
+import { Field, reduxForm } from "redux-form";
+import { renderInputField,required } from "../../form-validation/reduxFromFields";
 
 
-export default function Signup() {
+function Login(props) {
+  const { handleSubmit, pristine, reset, submitting } = props;
   var flag = true;
   const dispatch = useDispatch();
   const history = useHistory();
-  const submitHandler = (e) => {
-    e.preventDefault();
-    if (e.target.email.value && e.target.password.value) {
+
+  const onSubmit = (values) => {
+    const formValues = { ...values };
+    if (formValues.email && formValues.password) {
       Users.map((record) => {
         if (
-          e.target.email.value === record.email &&
-          e.target.password.value === record.password
+          formValues.email === record.email &&
+          formValues.password === record.password
         ) {
           flag = false;
-          dispatch(setLoginUser({ email: e.target.email.value }));
+          dispatch(setLoginUser({ email: formValues.email }));
           history.push("/");
         }
       });
@@ -30,6 +34,7 @@ export default function Signup() {
       alert("invalid input");
     }
   };
+
   return (
     <div className="col-3 mx-auto">
       <br />
@@ -37,31 +42,46 @@ export default function Signup() {
       <br />
       <br />
       <Container>
-        <Form onSubmit={submitHandler}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              name="email"
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              name="password"
-              required
-            />
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
+        <form onSubmit={handleSubmit(onSubmit)} className="my-3">
+          <div>
+            <div>
+              <Field
+                name="email"
+                type="email"
+                component={renderInputField}
+                label="Email"
+                placeholder=""
+                isRequired="true"
+                validate={[required]}
+              />
+            </div>
+            <br />
+            <div>
+              <Field
+                name="password"
+                type="password"
+                component={renderInputField}
+                label="Password"
+                placeholder=""
+                isRequired="true"
+                validate={[required]}
+              />
+            </div>
+          </div>
+          <br />
+          <div className="">
+            <div className="text-center">
+              <Button type="submit" disabled={pristine || submitting}>
+                Submit
+              </Button>
+            </div>
+          </div>
+        </form>
       </Container>
     </div>
   );
 }
+
+export default reduxForm({
+  form: "login",
+})(Login);

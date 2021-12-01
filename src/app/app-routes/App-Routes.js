@@ -9,10 +9,17 @@ import PublicRoute from "./PublicRoute";
 import Home from "../../pages/home/Home";
 import Login from "../../pages/login/Login";
 import Favourites from "../../pages/favourites/Favourites";
-
+import BootstrapSwitchButton from "bootstrap-switch-button-react";
 function AppRoutes() {
   const email = useSelector((state) => state.Users.email);
   const [themeMode, setThemeMode] = useState("bg-light");
+  const checkThemeMode = (checked) => {
+    if (checked) {
+      setThemeMode("bg-dark");
+    } else {
+      setThemeMode("bg-light");
+    }
+  };
 
   return (
     <div className={`App ${themeMode} `}>
@@ -39,16 +46,11 @@ function AppRoutes() {
                   </Nav.Link>
                 </>
               )}
-              <Nav.Link as={Link} onClick={() => setThemeMode("bg-dark")}>
-                Dark-Mode
-              </Nav.Link>
-              <Nav.Link as={Link} onClick={() => setThemeMode("bg-light")}>
-                Light-Mode
-              </Nav.Link>
               {email ? (
                 <>
                   <NavDropdown
-                  style={{marginLeft:"650px"}}
+                    className="dropdown-btn"
+                    style={{ marginLeft: "650px" }}
                     title={
                       <img
                         height="30px"
@@ -59,7 +61,7 @@ function AppRoutes() {
                     }
                     id="basic-nav-dropdown"
                   >
-                    {email}
+                    Hello: {email}
                     <NavDropdown.Divider />
                     <NavDropdown.Item as={Link} to="/logout">
                       Logout
@@ -67,8 +69,20 @@ function AppRoutes() {
                   </NavDropdown>
                 </>
               ) : (
-                <></>
+                <>
+                  <p className="para"> </p>
+                </>
               )}
+              <BootstrapSwitchButton
+                onstyle="primary"
+                offstyle="info"
+                checked={false}
+                onlabel="Dark"
+                offlabel="Light"
+                onChange={(checked) => {
+                  checkThemeMode(checked);
+                }}
+              />
             </Nav>
           </Container>
         </Navbar>

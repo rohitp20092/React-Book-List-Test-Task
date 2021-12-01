@@ -1,15 +1,27 @@
 export const Users = [
   { 
     role:"admin",
-    name: "Devendra Chouhan",
-    email: "dev@gmail.com",
-    password: "123",
+    name: "Admin",
+    email: "admin@gmail.com",
+    password: "123456",
   },
   {
     role:"user",
-    name: "Shivam Asawa",
-    email: "shivam@gmail.com",
-    password: "123",
+    name: "jake",
+    email: "jake@gmail.com",
+    password: "123456",
+  },
+  {
+    role:"user",
+    name: "wilson",
+    email: "wilson@gmail.com",
+    password: "123456",
+  },
+  {
+    role:"user",
+    name: "adam",
+    email: "adam@gmail.com",
+    password: "123456",
   },
 ];
 
